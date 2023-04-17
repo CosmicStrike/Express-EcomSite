@@ -1,8 +1,30 @@
+import { config } from 'dotenv'
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import mongoose from 'mongoose';
 
-var app = express();
+const app = express();
+config()
+
+mongoose.set('strictQuery', true);
+mongoose.connect(process.env.MONGOOSE_URL);
+const db = mongoose.connection;
+db.on('error', (err) => { console.log(err) });
+db.once("open", () => console.log("Successfull connection to database"));
+
+// CORS
+app.use((err, req, res, next) => {
+    if (err) next(err);// It will pass the error to express's default error handling method
+
+    res.header('Content-Type', 'application/json; charset=UTF-8');
+    res.header('Access-Control-Allow-Credenticals', true);//Credentials are cookies, authorization headers, or TLS client certificates.
+    res.header('Access-Control-Allow-Methods', "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+    res.header('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept");
+    res.header('Access-Control-Allow_Origin', 'http://localhost:3000');
+    next()
+})
+
 
 app.use(logger('dev'));// To log the request and their response eg: GET / 404 2.420 ms - 139
 app.use(express.json());// Parse the stringified data from fetch request to json object
