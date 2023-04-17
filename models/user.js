@@ -49,9 +49,17 @@ const userSchema = Schema({
         maxLength: [56, 'Must bt atmost 56 characters, but got more than 56']
     },
 
+    // To store whether the email is verified nor not
     emailVerified: {
         type: Boolean,
         default: false,
+    },
+
+
+    // To store the refresh token value, for cross checking 
+    refresh: {
+        type: String,
+        unique: true
     }
 });
 
