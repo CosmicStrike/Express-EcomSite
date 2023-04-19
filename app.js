@@ -3,11 +3,12 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import mongoose from 'mongoose';
+import loginRouter from './routes/api/login.js';
 
 const app = express();
 config()
 
-mongoose.set('strictQuery', true);
+mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGOOSE_URL);
 const db = mongoose.connection;
 db.on('error', (err) => { console.log(err) });
@@ -38,5 +39,10 @@ app.use(express.urlencoded({ extended: true }));
 */
 app.use(cookieParser());// Handles the cookies send by client
 app.use('/static', express.static('public'));// we can access the static files such as user images, css
+
+// app.use('/api/user', user);
+// app.use('/api/product', product);
+app.use('/api', loginRouter);
+
 
 export default app;

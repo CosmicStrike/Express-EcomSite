@@ -34,13 +34,14 @@ const userSchema = Schema({
     mobile: {
         type: String,
         maxLength: [10, 'Mobile number has more than 10 characters'],
-        vaildate: {
-            validator: function (mb) {
-                let regexp = new RegExp('/^\d{10}$/');
-                return regexp.test(mb);
+        unique: true,
+        validate: {
+            validator: function (e) {
+                const rex = new RegExp('\\d{10}');
+                return rex.test(e);
             },
-            message: "Invalid Mobile Number"
-        }
+            message: "Mobile number is invaild"
+        },
     },
 
     country: {
@@ -52,6 +53,7 @@ const userSchema = Schema({
     // To store whether the email is verified nor not
     emailVerified: {
         type: Boolean,
+        required: true,
         default: false,
     },
 
@@ -59,7 +61,7 @@ const userSchema = Schema({
     // To store the refresh token value, for cross checking 
     refresh: {
         type: String,
-        unique: true
+        default: null
     }
 });
 
