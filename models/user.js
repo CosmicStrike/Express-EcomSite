@@ -34,14 +34,7 @@ const userSchema = Schema({
     mobile: {
         type: String,
         maxLength: [10, 'Mobile number has more than 10 characters'],
-        unique: true,
-        validate: {
-            validator: function (e) {
-                const rex = new RegExp('\\d{10}');
-                return rex.test(e);
-            },
-            message: "Mobile number is invaild"
-        },
+        unique: true
     },
 
     country: {
