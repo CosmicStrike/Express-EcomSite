@@ -16,27 +16,35 @@ function RandomString() {
 }
 
 async function SendEmail(mailTo, url, type) {
-    const transporter = nodemailer.createTransport(smtpTransport({
-        service: 'gmail',
-        host: 'smtp.gamil.com',
-        port: 587,
-        auth: {
-            user: process.env.USER,
-            pass: process.env.PASS
-        }
-    }))
-    const sub = (type) ? "Ecom Account Email Verification" : "Ecom Account Reset Password";
-    const message = (type) ? `To continue creating your new Ecom account, please verify your email account below \n ${url}` : `To reset your Ecom account password, please visit below link \n ${url}`;
+    try {
+        const transporter = nodemailer.createTransport(smtpTransport({
+            service: 'gmail',
+            host: 'smtp.gamil.com',
+            port: 587,
+            auth: {
+                user: process.env.USER,
+                pass: process.env.PASS
+            }
+        }))
+        const sub = (type) ? "[Ecom Account] Email Verification" : "[Ecom Account] Reset Password";
+        const message = (type) ? `To continue creating your new Ecom account, please verify your email account below \n ${url}` : `To reset your Ecom account password, please visit below link \n ${url}`;
 
-    const mailOptions = {
-        from: process.env.USER,
-        to: mailTo,
-        subject: sub,
-        text: message
-    };
+        const mailOptions = {
+            from: process.env.USER,
+            to: mailTo,
+            subject: sub,
+            text: message
+        };
 
-    const a = await transporter.sendMail(mailOptions);
-    return (a.rejected.length === 0);// if rejected.length is zero then, this will return true meaning eamil send successfully otherwise false
+        const a = await transporter.sendMail(mailOptions);
+        const l = (a.rejected.length === 0);// if rejected.length is zero then, this will return true meaning eamil send successfully otherwise false
+        transporter.close();
+        return l;
+    }
+    catch (err) {
+        console.log(err);
+        return false;
+    }
 }
 
 export {

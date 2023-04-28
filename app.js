@@ -4,7 +4,10 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import mongoose from 'mongoose';
 import loginRouter from './routes/api/login.js';
+import productRouter from './routes/api/product.js';
+import userRouter from './routes/api/user.js';
 
+import product from './models/product.js';
 const app = express();
 config()
 
@@ -40,9 +43,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());// Handles the cookies send by client
 app.use('/static', express.static('public'));// we can access the static files such as user images, css
 
-// app.use('/api/user', user);
-// app.use('/api/product', product);
+app.use('/api/user', userRouter);
+app.use('/api/product', productRouter);
 app.use('/api', loginRouter);
-
 
 export default app;
