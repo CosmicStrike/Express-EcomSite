@@ -6,13 +6,15 @@ import auth, { GenerateAccessToken, GenrateRefershToken } from "../../middleware
 const userRouter = Router();
 
 // Get the cart of the authorizied user
-userRouter.get('/cart', auth, (req, res) => {
+userRouter.get('/cart', auth, async (req, res) => {
     /**
      *  Request:
      *      uid: String
      */
     try {
-
+        const user = await User.findById(req.uid);
+        console.log(user.cart);
+        return res.status(200).json({ success: true, message: 'User Cart' });
     }
     catch (err) {
         console.log(err);
@@ -26,6 +28,9 @@ userRouter.put('/cart', auth, (req, res) => {
     /**
      *  Request:
      *      uid: String
+     * 
+     *  Request Body:
+     *      pid: String
      */
     try {
 
@@ -42,9 +47,29 @@ userRouter.delete('/cart', auth, (req, res) => {
     /**
      *  Request:
      *      uid: String
+     * 
+     *  Request Body:
+     *      pid: String
      */
     try {
 
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).json({ success: false, message: 'Server failed to process the request' });
+    }
+});
+
+// Return the cart history of the user
+userRouter.get('/history', auth, async (req, res) => {
+    /**
+    *  Request:
+    *      uid: String
+    *      
+    */
+    try {
+        const user = await User.findById(req.uid);
+        
     }
     catch (err) {
         console.log(err);

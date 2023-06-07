@@ -4,7 +4,6 @@ import User from '../../models/user.js';
 import { RandomString, SendEmail } from '../../utils.js'
 import * as argon2 from "argon2";
 import auth, { GenerateAccessToken, GenrateRefershToken } from "../../middlewares/auth.js";
-import { restart } from "nodemon";
 const loginRouter = Router();
 
 config();

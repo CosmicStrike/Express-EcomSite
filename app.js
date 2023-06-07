@@ -7,7 +7,6 @@ import loginRouter from './routes/api/login.js';
 import productRouter from './routes/api/product.js';
 import userRouter from './routes/api/user.js';
 
-import product from './models/product.js';
 const app = express();
 config()
 
@@ -18,14 +17,12 @@ db.on('error', (err) => { console.log(err) });
 db.once("open", () => console.log("Successfull connection to database"));
 
 // CORS
-app.use((err, req, res, next) => {
-    if (err) next(err);// It will pass the error to express's default error handling method
-
+app.use((req, res, next) => {
     res.header('Content-Type', 'application/json; charset=UTF-8');
-    res.header('Access-Control-Allow-Credenticals', true);//Credentials are cookies, authorization headers, or TLS client certificates.
+    res.header('Access-Control-Allow-Credentials', true);//Credentials are cookies, authorization headers, or TLS client certificates.
     res.header('Access-Control-Allow-Methods', "GET, POST, PUT, DELETE, PATCH, OPTIONS");
     res.header('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept");
-    res.header('Access-Control-Allow_Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
     next()
 })
 
@@ -47,4 +44,5 @@ app.use('/api/user', userRouter);
 app.use('/api/product', productRouter);
 app.use('/api', loginRouter);
 
+export { db };
 export default app;

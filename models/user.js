@@ -55,7 +55,33 @@ const userSchema = Schema({
     refresh: {
         type: String,
         default: null
-    }
+    },
+
+    cart:
+        [{
+            porduct: {
+                type: Schema.Types.ObjectId,
+                ref: "Product",
+                required: true
+            },
+
+            quantity: {
+                type: Number,
+                default: 0
+            },
+
+            purchased: {
+                type: Boolean,
+                default: false
+            },
+
+            purchasedDate: {
+                type: Date,
+                default: null
+            }
+
+        }]
+
 });
 
 export default mongoose.model("User", userSchema);
