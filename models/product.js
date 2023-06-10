@@ -32,6 +32,12 @@ const productSchema = Schema({
         required: true
     },
 
+    description: {
+        type: String,
+        default: 'Description',
+        maxLength: [250, 'Must be atmost 250 characters, but got ${VALUE}']
+    },
+
     createdAt: {
         type: Date,
         required: true

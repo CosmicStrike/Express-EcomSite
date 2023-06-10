@@ -69,7 +69,7 @@ userRouter.get('/history', auth, async (req, res) => {
     */
     try {
         const user = await User.findById(req.uid);
-        
+
     }
     catch (err) {
         console.log(err);

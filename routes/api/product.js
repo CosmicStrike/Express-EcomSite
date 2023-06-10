@@ -32,8 +32,7 @@ const uploads = multer({
 // Return/ Get all the products from the database
 productRouter.get('/', async (req, res) => {
     try {
-        console.log(db.readyState)
-        const products = await Product.find({}, '_id name category price imageUrls');
+        const products = await Product.find({}, '_id name category price description imageUrls');
         res.status(200).json({ success: true, message: 'All products send successfully', products: products });
 
     } catch (err) {
@@ -72,6 +71,7 @@ productRouter.post('/', (req, res) => {
                     price: req.body.price,
                     imageUrls: urls,
                     images: req.files,
+                    description: req.body.description,
                     createdAt: new Date()
                 });
                 await product.save();
